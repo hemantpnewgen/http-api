@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <title>Assignment_1</title>
+	    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+      <script>
+        var info = angular.module('info', []);
+        info.controller('ctrl', function ($scope, $http){
+          $http.get('actor.json').success(function(data) {
+            $scope.actor = data;
+          });
+        });
+      </script>
+  </head>
+
+  <body ng-app="info" class="container" ng-controller="ctrl">
+    <div>
+	     <h1> Fetching JSON by HTTP "get" Method </h1>
+    <table>
+      <thead>
+      <tr class="success">
+        <th>First Name</th>
+		    <th>Last Name</th>
+        <th>Contact</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="act in actor">
+        <td>{{act.firstname}}</td>
+		    <td>{{act.lastname}}</td>
+        <td>{{act.contact}}</td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </body>
+  </html>

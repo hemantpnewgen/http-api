@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Caching</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script type="text/javascript">
+    	var mod = angular.module("app", []);
+    	mod.controller("ctrl", function($scope,$cacheFactory){
+    		$scope.cache = $cacheFactory('MyCache');
+    		$scope.keys = [];
+    		$scope.put = function(key,val){
+    			if(angular.isUndefined($scope.cache.get(key))){
+    			$scope.cache.put(key,val);
+    			$scope.keys.push(key);
+    		} 
+    		$scope.remove = function(rem_cache){
+    			$scope.cache.remove(rem_cache);
+    		} 
+    		$scope.removeAll = function(){
+    			$scope.cache.removeAll();
+    		}
+    		$scope.destroy = function(){
+    			$scope.cache.destroy();
+    		}
+    	}
+    	});
+    </script>
+</head>
+<body ng-app="app" class="container" ng-controller="ctrl">
+<div> 
+		<b>Enter key:</b><input type="text" ng-model="key"><br>
+		<b>Enter value:</b><input type="text" ng-model="value">
+	<button type="button" ng-click="put(key, val)">Cache</button>
+	<h3> <u>Cached Values:</u></h3>
+	<div>
+		<div ng-repeat="key in keys">
+			<span ng-bind="key"></span>:
+			<b ng-bind="cache.get(key)"></b>
+		</div>
+	</div>
+	<h3> <u>Cache Information:</u></h3> 
+	<div >
+		<div ng-repeat="(key, val) in cache.info()">
+			<span ng-bind="key"></span>:
+			<b ng-bind="val"></b>
+		</div>
+	</div>
+	<h3><u>Delete Operations</u></h3>
+	<br>
+	<div>
+		<b>Enter key: </b><input type="text" ng-model="rem_cache">
+		<button type="button" ng-click="remove(rem_cache)">Remove</button>
+		<br><br>
+		<button type="button" ng-click="removeAll()">RemoveAll</button>
+		<button type="button" ng-click="destroy()">Destroy</button>
+	</div>
+</div>
+</body>
+</html>
